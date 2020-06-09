@@ -1,0 +1,83 @@
+﻿@model List<DbFirstApproach.Models.Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<h2>Product</h2>
+
+<a href="/products/create">Create</a>
+<form class="form-inline" action="/products/index">
+    @Html.Label("Search", new { @class="mr-1"})
+    @Html.TextBox("Search", ViewBag.search as string, new { @class = "form-control mr-1", placeholder = "Search"})
+    
+    <button type="submit" class="btn btn-primary">GO</button>
+</form>
+
+<table class="table">
+    
+    <tr class="table-secondary">
+        <th>Photo</th>
+        <th style="width:10%">
+            @if(ViewBag.IconClass == "fa-sort-desc")
+            {
+                <a href="/products/index?SortColumn=ProductID&IconClass=fa-sort-asc">Product ID</a>
+                if(ViewBag.SortColumn == "ProductID")
+                {
+                    <i class=" @ViewBag.IconClasas"></i>
+                }
+            }
+            else
+            {
+                <a href="/products/index?SortColumn=ProductID&IconClass=fa-sort-desc">Product ID</a>
+            }
+
+        </th>
+        <th style="width:30%">
+            @if (ViewBag.IconClass == "fa-sort-desc")
+            {
+                <a href="/products/index?SortColumn=ProductName&IconClass=fa-sort-asc">Product Name</a>
+                if (ViewBag.SortColumn == "ProductName")
+                {
+                    <i class="@ViewBag.IconClasas"></i>
+                }
+            }
+            else
+            {
+                <a href="/products/index?SortColumn=ProductName&IconClass=fa-sort-desc">Product Name</a>
+            }
+
+        </th>
+        <th style="width:5%">Pricez</th>
+        <th style="width:10%">DateOfPurchase</th>
+        <th style="width:10%">AvailableStatus</th>
+        <th style="width:10%">Category</th>
+        <th style="width:5%">Brand</th>
+        <th style="width:10%">Active</th>
+        <th style="width:10%"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+<tr>
+    <td><img src="data:image;base64,@item.Photo" width="100px"/></td>
+    <td>@Html.DisplayFor(temp => item.ProductID)</td>
+    <td>@Html.DisplayFor(temp => item.ProductName)</td>
+    <td>@Html.DisplayFor(temp => item.Price)</td>
+    <td>@Html.DisplayFor(temp => item.DateOfPurchase)</td>
+    <td>@Html.DisplayFor(temp => item.AvailabilityStatus)</td>
+    <td>@Html.DisplayFor(temp => item.Category.CategoryName)</td>
+    <td>@Html.DisplayFor(temp => item.Brand.BrandName)</td>
+    <td>@Html.DisplayFor(temp => item.Active)</td>
+    <td>
+        @Html.ActionLink("Details", "Details", new { id = item.ProductID, controller = "Products" })
+        @Html.ActionLink("Edit", "Edit", new { id = item.ProductID, controller = "Products" })
+        @Html.ActionLink("Delete", "Delete", new { id = item.ProductID, controller = "Products" })
+       
+    </td>
+    
+
+</tr>
+    }
+</table>
+
+
